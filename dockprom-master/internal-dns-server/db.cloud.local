@@ -1,0 +1,27 @@
+$TTL    604800
+@       IN      SOA     ns.cloud.local. admin.cloud.local. (
+                     2024010101         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+
+; Name servers
+@       IN      NS      ns.cloud.local.
+ns      IN      A       127.0.0.1
+
+; Phase 1: Core services
+web-frontend-server         IN      A       172.22.0.10
+application-backend-server  IN      A       172.22.0.11
+relational-database-server  IN      A       172.22.0.12
+authentication-identity-server IN   A       172.22.0.13
+object-storage-server       IN      A       172.22.0.14
+internal-dns-server         IN      A       172.22.0.15
+monitoring-prometheus-server IN     A       172.22.0.16
+monitoring-grafana-dashboard-server IN A    172.22.0.17
+api-gateway-proxy-server    IN      A       172.22.0.18
+
+; Phase 2: Additional records
+app-backend                 IN      CNAME   application-backend-server.cloud.local.
+minio                       IN      CNAME   object-storage-server.cloud.local.
+keycloak                    IN      CNAME   authentication-identity-server.cloud.local.

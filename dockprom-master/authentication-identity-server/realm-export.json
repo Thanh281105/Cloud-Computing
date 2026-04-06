@@ -1,0 +1,46 @@
+{
+  "realm": "myministcloud",
+  "enabled": true,
+  "displayName": "MyMiniCloud Realm",
+  "users": [
+    {
+      "username": "user1",
+      "email": "user1@cloud.local",
+      "firstName": "Nguyen",
+      "lastName": "Van A",
+      "enabled": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password1",
+          "temporary": false
+        }
+      ]
+    },
+    {
+      "username": "user2",
+      "email": "user2@cloud.local",
+      "firstName": "Tran",
+      "lastName": "Thi B",
+      "enabled": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password2",
+          "temporary": false
+        }
+      ]
+    }
+  ],
+  "clients": [
+    {
+      "clientId": "myministcloud-app",
+      "name": "MyMiniCloud Application",
+      "enabled": true,
+      "publicClient": true,
+      "directAccessGrantsEnabled": true,
+      "redirectUris": ["http://localhost/*", "http://localhost:8080/*"],
+      "webOrigins": ["*"]
+    }
+  ]
+}

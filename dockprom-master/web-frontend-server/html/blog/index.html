@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html class="light" lang="vi">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>MyMiniCloud - Blog</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <style>
+        body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .glass-card { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+    </style>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-surface": "#0b1c30",
+              "surface-variant": "#d3e4fe",
+              "surface-container-high": "#dce9ff",
+              "on-primary-fixed-variant": "#0031c5",
+              "on-primary-fixed": "#001159",
+              "surface-container-lowest": "#ffffff",
+              "secondary": "#4b41e1",
+              "secondary-container": "#645efb",
+              "on-surface-variant": "#444655",
+              "outline": "#747687",
+              "on-secondary": "#ffffff",
+              "surface-container": "#e5eeff",
+              "surface-container-low": "#eff4ff",
+              "outline-variant": "#c4c5d8",
+              "primary-container": "#0033cc",
+              "on-primary-container": "#a8b5ff",
+              "primary": "#002294",
+              "on-primary": "#ffffff",
+              "surface-container-highest": "#d3e4fe",
+              "surface": "#f8f9ff",
+              "background": "#f8f9ff",
+              "on-error-container": "#93000a"
+            },
+            fontFamily: { headline: ["Inter"], body: ["Inter"], label: ["Inter"] }
+          }
+        }
+      }
+    </script>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary-container selection:text-on-primary-container">
+
+<!-- TopNavBar -->
+<nav class="bg-white/80 backdrop-blur-xl sticky top-0 z-50 bg-slate-50">
+    <div class="flex justify-between items-center px-8 py-4 max-w-7xl mx-auto">
+        <a href="/" class="text-xl font-black text-blue-900">☁️ MyMiniCloud</a>
+        <div class="hidden md:flex items-center space-x-8">
+            <a class="text-slate-600 font-medium hover:text-blue-900 transition-all duration-300" href="/">Home</a>
+            <a class="text-blue-700 font-bold border-b-2 border-blue-700 pb-1 transition-all duration-300" href="/blog/">Blog</a>
+            <a class="text-slate-600 font-medium hover:text-blue-900 transition-all duration-300 api-link" href="/api/hello">API</a>
+        </div>
+    </div>
+</nav>
+
+<main class="max-w-7xl mx-auto px-8 pt-20 pb-32">
+    <!-- Header Section -->
+    <header class="mb-24 max-w-3xl">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary-container/10 text-secondary mb-6">
+            <span class="material-symbols-outlined text-[18px]">article</span>
+            <span class="text-[12px] font-bold tracking-widest uppercase">Knowledge Base</span>
+        </div>
+        <h1 class="text-[3.5rem] font-black leading-[1.1] tracking-tight text-on-surface mb-8">
+            Báo Cáo Chuyên Đề
+        </h1>
+        <p class="text-on-surface-variant text-lg leading-relaxed font-medium">
+            Khám phá các báo cáo kỹ thuật chuyên sâu về hạ tầng đám mây, kiến trúc phần mềm và giải pháp vận hành hệ thống hiện đại từ đội ngũ kỹ sư MyMiniCloud.
+        </p>
+    </header>
+
+    <!-- Blog Entries List -->
+    <div class="space-y-4">
+        <!-- Entry 1 -->
+        <a href="/blog1.html" class="block">
+            <article class="group relative bg-surface-container-lowest rounded-xl p-8 transition-all duration-500 hover:translate-x-2">
+                <div class="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-xl"></div>
+                <div class="relative flex flex-col md:flex-row md:items-center justify-between gap-8">
+                    <div class="max-w-2xl">
+                        <div class="flex items-center gap-4 mb-4">
+                            <span class="text-[12px] font-bold text-secondary tracking-widest uppercase">Cloud Computing</span>
+                            <span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+                            <span class="text-sm text-on-surface-variant">15 Phút Đọc</span>
+                        </div>
+                        <h2 class="text-2xl font-bold text-on-surface mb-3 group-hover:text-primary transition-colors">
+                            Docker và Cloud Computing Kỷ Nguyên Mới
+                        </h2>
+                        <p class="text-on-surface-variant leading-relaxed">
+                            Phân tích sâu về vai trò của containerization trong việc định hình lại cách thức triển khai ứng dụng trên nền tảng đám mây và tối ưu hóa tài nguyên phần cứng.
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <span class="text-primary font-bold hidden md:block opacity-0 group-hover:opacity-100 transition-all -translate-x-4 group-hover:translate-x-0">Đọc bài viết</span>
+                        <div class="w-12 h-12 rounded-full border border-outline-variant/30 flex items-center justify-center group-hover:bg-primary group-hover:text-on-primary transition-all duration-300">
+                            <span class="material-symbols-outlined">arrow_forward</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </a>
+
+        <!-- Entry 2 -->
+        <a href="/blog2.html" class="block">
+            <article class="group relative bg-surface-container-lowest rounded-xl p-8 transition-all duration-500 hover:translate-x-2">
+                <div class="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-xl"></div>
+                <div class="relative flex flex-col md:flex-row md:items-center justify-between gap-8">
+                    <div class="max-w-2xl">
+                        <div class="flex items-center gap-4 mb-4">
+                            <span class="text-[12px] font-bold text-secondary tracking-widest uppercase">Architecture</span>
+                            <span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+                            <span class="text-sm text-on-surface-variant">20 Phút Đọc</span>
+                        </div>
+                        <h2 class="text-2xl font-bold text-on-surface mb-3 group-hover:text-primary transition-colors">
+                            Giải Mã Kiến trúc Microservices
+                        </h2>
+                        <p class="text-on-surface-variant leading-relaxed">
+                            Từ khối Monolithic đến Microservices: Những thách thức về giao tiếp mạng, bảo mật dữ liệu và cách vận hành một hệ thống phân tán quy mô lớn.
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <span class="text-primary font-bold hidden md:block opacity-0 group-hover:opacity-100 transition-all -translate-x-4 group-hover:translate-x-0">Đọc bài viết</span>
+                        <div class="w-12 h-12 rounded-full border border-outline-variant/30 flex items-center justify-center group-hover:bg-primary group-hover:text-on-primary transition-all duration-300">
+                            <span class="material-symbols-outlined">arrow_forward</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </a>
+
+        <!-- Entry 3 -->
+        <a href="/blog3.html" class="block">
+            <article class="group relative bg-surface-container-lowest rounded-xl p-8 transition-all duration-500 hover:translate-x-2">
+                <div class="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-xl"></div>
+                <div class="relative flex flex-col md:flex-row md:items-center justify-between gap-8">
+                    <div class="max-w-2xl">
+                        <div class="flex items-center gap-4 mb-4">
+                            <span class="text-[12px] font-bold text-secondary tracking-widest uppercase">Observability</span>
+                            <span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+                            <span class="text-sm text-on-surface-variant">12 Phút Đọc</span>
+                        </div>
+                        <h2 class="text-2xl font-bold text-on-surface mb-3 group-hover:text-primary transition-colors">
+                            Giám Sát Chủ Động với Prometheus &amp; Grafana
+                        </h2>
+                        <p class="text-on-surface-variant leading-relaxed">
+                            Hướng dẫn thiết lập hệ thống giám sát thời gian thực, xây dựng Dashboard trực quan và cấu hình cảnh báo thông minh cho hạ tầng MyMiniCloud.
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <span class="text-primary font-bold hidden md:block opacity-0 group-hover:opacity-100 transition-all -translate-x-4 group-hover:translate-x-0">Đọc bài viết</span>
+                        <div class="w-12 h-12 rounded-full border border-outline-variant/30 flex items-center justify-center group-hover:bg-primary group-hover:text-on-primary transition-all duration-300">
+                            <span class="material-symbols-outlined">arrow_forward</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </a>
+    </div>
+
+    <!-- Featured Resource / CTA Bento Section -->
+    <section class="mt-32 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="md:col-span-2 glass-card rounded-[1.5rem] p-12 flex flex-col justify-end min-h-[400px] relative overflow-hidden group">
+            <img class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCEJGei2PMg_Ooqn45ejNEGghg34721BXkRqYglplrzBxP72lD82mZuxl0qmO8hBx4pQBpNRfD4hVhgptNB4a-QPbkJXWRoLnoZ1Fst1R171azds4ETv4wRKEMDid0_YXNwZQvjk44kKho4CwUwkNi9qpt8c3dtuVV8Wj8GuOLl0O7crfzpWiq-OnRLGgMbQ86p1XHVErvh5F_CeDdwY64w2MBySOrFtkM8HTkD0RKvptQpTj188nzuwX0Em2JtFa0gMHh2ZKZfdOI" alt="Cloud structures"/>
+            <div class="absolute inset-0 bg-gradient-to-t from-on-surface via-on-surface/40 to-transparent"></div>
+            <div class="relative z-10">
+                <h3 class="text-white text-3xl font-bold mb-4">Báo Cáo Cuối Kỳ 2026</h3>
+                <p class="text-white/80 mb-8 max-w-lg">Tổng hợp tất cả các báo cáo chuyên đề về kiến trúc Microservices và hiệu năng Cloud Server trên AWS EC2.</p>
+                <a href="/" class="bg-white text-primary px-8 py-3 rounded-full font-bold flex items-center gap-2 w-fit hover:bg-surface-container-high transition-colors">
+                    Quay về trang chủ <span class="material-symbols-outlined">home</span>
+                </a>
+            </div>
+        </div>
+        <div class="bg-primary-container rounded-[1.5rem] p-10 flex flex-col justify-between">
+            <div>
+                <div class="w-12 h-12 rounded-2xl bg-on-primary-container/20 flex items-center justify-center mb-6">
+                    <span class="material-symbols-outlined text-white">mail</span>
+                </div>
+                <h3 class="text-white text-2xl font-bold mb-4">Đăng Ký Bản Tin Kỹ Thuật</h3>
+                <p class="text-white/70 text-sm">Nhận thông báo về các bài viết mới nhất và cập nhật công nghệ hàng tuần.</p>
+            </div>
+            <div class="mt-8 space-y-3">
+                <input class="w-full bg-white/10 border-none rounded-xl px-4 py-3 text-white placeholder:text-white/40 focus:ring-2 focus:ring-white/50" placeholder="Email của bạn..." type="email"/>
+                <button class="w-full bg-white text-primary font-bold py-3 rounded-xl">Đăng Ký</button>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Footer -->
+<footer class="bg-slate-100 py-12 mt-20">
+    <div class="max-w-7xl mx-auto px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+        <a href="/" class="text-lg font-bold text-slate-900">☁️ MyMiniCloud</a>
+        <div class="flex flex-wrap justify-center gap-8">
+            <a class="text-slate-500 text-sm font-medium hover:text-blue-700 underline decoration-2 underline-offset-4 transition-opacity" href="/">Home</a>
+            <a class="text-slate-500 text-sm font-medium hover:text-blue-700 underline decoration-2 underline-offset-4 transition-opacity" href="/blog/">Blog</a>
+            <a class="text-slate-500 text-sm font-medium hover:text-blue-700 underline decoration-2 underline-offset-4 transition-opacity api-link" href="/api/hello">API</a>
+        </div>
+        <p class="text-slate-500 text-sm font-medium">© 2026 MyMiniCloud Infrastructure. All rights reserved.</p>
+    </div>
+</footer>
+<script>
+document.querySelectorAll('.api-link').forEach(function(el) {
+    el.href = 'http://' + location.hostname + '/api/hello';
+});
+</script>
+</body>
+</html>

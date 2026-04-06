@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html class="light" lang="vi">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Docker và Cloud Computing - MyMiniCloud Blog</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-surface": "#0b1c30", "surface-variant": "#d3e4fe", "surface-container-high": "#dce9ff",
+              "on-primary-fixed-variant": "#0031c5", "on-primary-fixed": "#001159", "surface-container-lowest": "#ffffff",
+              "secondary": "#4b41e1", "on-surface-variant": "#444655", "outline": "#747687",
+              "surface-container": "#e5eeff", "surface-container-low": "#eff4ff", "outline-variant": "#c4c5d8",
+              "primary-container": "#0033cc", "on-primary-container": "#a8b5ff", "primary": "#002294",
+              "on-primary": "#ffffff", "surface-container-highest": "#d3e4fe", "surface": "#f8f9ff",
+              "background": "#f8f9ff", "on-error-container": "#93000a"
+            },
+            fontFamily: { headline: ["Inter"], body: ["Inter"], label: ["Inter"] }
+          }
+        }
+      }
+    </script>
+    <style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .prose p { margin-bottom: 1.5rem; color: #444655; line-height: 1.8; }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface" style="font-family:'Inter',sans-serif;">
+
+<!-- Top Navigation Bar -->
+<nav class="bg-white/80 backdrop-blur-xl sticky top-0 z-50">
+    <div class="flex justify-between items-center px-8 py-4 max-w-7xl mx-auto">
+        <a href="/" class="text-xl font-black text-blue-900">☁️ MyMiniCloud</a>
+        <div class="hidden md:flex items-center gap-8">
+            <a class="text-slate-600 font-medium hover:text-blue-900 transition-all duration-300" href="/">Home</a>
+            <a class="text-blue-700 font-bold border-b-2 border-blue-700 pb-1 transition-all duration-300" href="/blog/">Blog</a>
+            <a class="text-slate-600 font-medium hover:text-blue-900 transition-all duration-300 api-link" href="/api/hello">API</a>
+        </div>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<main class="max-w-4xl mx-auto px-6 py-12">
+    <!-- Back Action -->
+    <div class="mb-8 group">
+        <a class="inline-flex items-center gap-2 text-secondary font-semibold hover:gap-3 transition-all duration-300" href="/blog/">
+            <span class="material-symbols-outlined text-lg">arrow_back</span>
+            <span>Quay lại danh sách bài viết</span>
+        </a>
+    </div>
+
+    <!-- Article Header -->
+    <header class="mb-12">
+        <div class="flex items-center gap-3 mb-6">
+            <span class="px-3 py-1 bg-surface-container-high text-on-primary-fixed-variant rounded-full text-xs font-bold uppercase tracking-wider">Cloud Computing</span>
+            <span class="text-outline text-sm">April 6, 2026</span>
+            <span class="text-outline text-sm">• 15 min read</span>
+        </div>
+        <h1 class="text-4xl md:text-6xl font-black text-on-surface tracking-tight mb-8 leading-[1.1]">
+            Docker và Cloud Computing
+        </h1>
+        <div class="flex items-center gap-4 py-6 border-y border-outline-variant/15">
+            <div class="w-12 h-12 rounded-full overflow-hidden bg-surface-container-highest">
+                <img alt="Author" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-tPsF1XSHEQW6R7ULcYxmPdd8PWL4JTykfXKaDbV-E3k8Rpd1n2lXHA3FPh8fjssmXbA3abriotq2g5F2lniIqkHj12ulQXjA4wc_9NkLIS_a56YMeblTeFnkfw6Ip0nnTMZmbBHurdNtS6LxpLY-wCbCgt_tjk1LeYc1Bg1WObuiqxq-p8slUq6mFXEt_az1BT0ej4nx8fv92WRK1S5roVr-27BWJ4H3NGjd94ki4j5kj8J5jiFHaDx0pF9zjjdgVtucrhFTeaw" class="w-full h-full object-cover"/>
+            </div>
+            <div>
+                <p class="font-bold text-on-surface">MyMiniCloud Team</p>
+                <p class="text-sm text-outline">Cloud Engineering Division</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Featured Image -->
+    <div class="relative w-full aspect-[21/9] rounded-3xl overflow-hidden mb-12 shadow-2xl shadow-primary/5">
+        <img alt="Cloud Infrastructure" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDm2SvrR2uy4ITwHANLV2YDCUNBfi4Oz7eXmoVzyPTL5-h3Qpi8yVbxS7CWyLaqSI5rteQa5RBTJEPBl4yyF5eAU3wLQUnQ86Bggz3DyqU7wqe17LmoQOfceokUYZbbxCtEH_kYtP4F5Q4AzPS5uRYUIeY8LnRusje4ozeCSzIZMAT3oHXkxhkudYOXhKmxinbZUMDNN7jUhQmqX3GnGg0H2WOQuGola5_OpIXKAAmIF89cI-klxK2MYSmwYDwItThE51i2jq-YErM"/>
+        <div class="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent"></div>
+    </div>
+
+    <!-- Article Body -->
+    <article class="prose max-w-none">
+        <p class="text-xl text-on-surface-variant font-medium leading-relaxed mb-10 first-letter:text-7xl first-letter:font-black first-letter:mr-3 first-letter:float-left first-letter:text-primary">
+            Cloud computing đã trở thành nền tảng không thể thiếu trong phát triển phần mềm hiện đại năm 2026. Docker, với công nghệ containerization, đã cách mạng hóa cách chúng ta triển khai và quản lý ứng dụng trên quy mô toàn cầu.
+        </p>
+
+        <h2 class="text-3xl font-black text-on-surface mt-16 mb-6 tracking-tight">Container là gì?</h2>
+        <p>
+            Container là một đơn vị phần mềm đóng gói code và tất cả dependencies, cho phép ứng dụng chạy nhanh chóng và tin cậy trên các môi trường khác nhau. Docker container chạy trên Docker Engine, chia sẻ kernel hệ điều hành nhưng cô lập hoàn toàn với nhau.
+        </p>
+
+        <div class="my-12 p-8 bg-surface-container-low rounded-3xl relative overflow-hidden">
+            <div class="relative z-10">
+                <span class="material-symbols-outlined text-secondary text-4xl mb-4">lightbulb</span>
+                <p class="text-lg italic text-on-surface-variant font-medium">
+                    "Container không phải máy ảo. Nó nhẹ hơn hàng chục lần, khởi động trong mili-giây và chia sẻ kernel với host — đó là lý do Docker thống trị thế giới DevOps."
+                </p>
+            </div>
+            <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-secondary/5 rounded-full blur-3xl"></div>
+        </div>
+
+        <h2 class="text-3xl font-black text-on-surface mt-16 mb-6 tracking-tight">Tại sao Docker cho Cloud?</h2>
+        <p>
+            Docker mang lại nhiều lợi ích cho cloud: triển khai nhanh, nhất quán môi trường, tối ưu tài nguyên, và dễ dàng scale. Trong dự án MyMiniCloud, chúng ta sử dụng Docker Compose để orchestrate 9 services khác nhau thành một hệ thống cloud hoàn chỉnh.
+        </p>
+
+        <!-- Tech Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-12">
+            <div class="bg-surface-container-lowest p-8 rounded-3xl shadow-sm border border-outline-variant/10">
+                <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mb-6">
+                    <span class="material-symbols-outlined text-primary">layers</span>
+                </div>
+                <h3 class="font-bold text-xl mb-3">Image Layers</h3>
+                <p class="text-sm text-outline leading-relaxed">Docker image được xây dựng theo từng lớp (layer), giúp tối ưu dung lượng và tốc độ build.</p>
+            </div>
+            <div class="bg-surface-container-lowest p-8 rounded-3xl shadow-sm border border-outline-variant/10">
+                <div class="w-12 h-12 bg-indigo-50 rounded-xl flex items-center justify-center mb-6">
+                    <span class="material-symbols-outlined text-secondary">hub</span>
+                </div>
+                <h3 class="font-bold text-xl mb-3">Docker Hub</h3>
+                <p class="text-sm text-outline leading-relaxed">Registry trung tâm cho phép chia sẻ và phân phối Docker images trên toàn thế giới.</p>
+            </div>
+        </div>
+
+        <h2 class="text-3xl font-black text-on-surface mt-16 mb-6 tracking-tight">Kiến trúc MyMiniCloud</h2>
+        <p>
+            MyMiniCloud sử dụng 9 container Docker, mỗi container đóng vai trò một server riêng biệt: Web Server (Nginx), App Server (Flask), Database (MariaDB), Authentication (Keycloak), Object Storage (MinIO), DNS (Bind9), Monitoring (Prometheus), Dashboard (Grafana), và API Gateway (Nginx Reverse Proxy).
+        </p>
+        <p>
+            Toàn bộ hệ thống được kết nối qua Docker Network (cloud-net, subnet 172.22.0.0/16) và triển khai thành công trên AWS EC2, chứng minh khả năng vận hành thực tế của kiến trúc cloud-native.
+        </p>
+    </article>
+
+    <!-- Article Footer -->
+    <footer class="mt-16 pt-8 border-t border-outline-variant/15 flex flex-col md:flex-row justify-between items-center gap-6">
+        <div class="flex items-center gap-4">
+            <span class="font-bold text-on-surface">Chia sẻ bài viết:</span>
+            <div class="flex gap-2">
+                <button class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center hover:bg-primary hover:text-white transition-colors duration-300">
+                    <span class="material-symbols-outlined text-lg">share</span>
+                </button>
+                <button class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center hover:bg-primary hover:text-white transition-colors duration-300">
+                    <span class="material-symbols-outlined text-lg">link</span>
+                </button>
+            </div>
+        </div>
+        <div class="flex gap-3">
+            <span class="px-4 py-2 bg-surface-container text-on-surface-variant rounded-full text-xs font-medium">#Docker</span>
+            <span class="px-4 py-2 bg-surface-container text-on-surface-variant rounded-full text-xs font-medium">#Cloud</span>
+            <span class="px-4 py-2 bg-surface-container text-on-surface-variant rounded-full text-xs font-medium">#Container</span>
+        </div>
+    </footer>
+</main>
+
+<!-- Related Articles -->
+<section class="bg-surface-container-low py-20 mt-20">
+    <div class="max-w-7xl mx-auto px-8">
+        <h2 class="text-3xl font-black mb-12 tracking-tight">Bài viết liên quan</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <a href="/blog2.html" class="group cursor-pointer block">
+                <div class="aspect-[16/10] rounded-2xl overflow-hidden mb-6 bg-surface-container-highest">
+                    <img alt="Microservices" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdHceicrqHZ14wKDoWLNkEuvZ5DyPZhfZ4O-gNnVA9NU81RVHEALzp723iadEWjeW88bQZRjutc21GSY87t3LlCtJnAOo7TH5rcNMuVk9OL3p1oLKNDn25HFBRavgTQryWrROv_nUO5_jszOILdhw7aSMNaJLpMho1WvntxOINJMj1XuU8NoMgd0nwpGTEjLlfuk2ZJiN2NZcLC5QBuL1s50Bv0Ua6KaMsMwvlelUAgeZxEkTNe6E2lEYora54xDpWLRjm2sRY3rI"/>
+                </div>
+                <h3 class="text-xl font-bold mb-2 group-hover:text-primary transition-colors">Giải Mã Kiến trúc Microservices</h3>
+                <p class="text-sm text-outline line-clamp-2">Từ Monolithic đến Microservices: thách thức và cách vận hành hệ thống phân tán.</p>
+            </a>
+            <a href="/blog3.html" class="group cursor-pointer block">
+                <div class="aspect-[16/10] rounded-2xl overflow-hidden mb-6 bg-surface-container-highest">
+                    <img alt="Monitoring" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZXBVtJgH0zxKjhnHGhlthzPvKhVKFOeRgD5lsAVQUXAtSacwpcE_8otvUE-pc4a7THc5VzPtWMvFYzA3ZJPfMaEkkQoslHgWsBBKjVim0FBwU6vXjpCnWCcsMIeqC8rtUlnNaCjOk6MS41WPQ20PUh6NEOe10dQJAhP-rRbmtPg5UTZBcNfC7vkBlqUNbVfuZgGRpQ1wOqu_jRlIIGbaT3vGBFi5jP3lszf1qwv1M-EOuD8WGdziNxVAiVx3xtRukzISMa4s7i-4"/>
+                </div>
+                <h3 class="text-xl font-bold mb-2 group-hover:text-primary transition-colors">Giám Sát Chủ Động với Prometheus & Grafana</h3>
+                <p class="text-sm text-outline line-clamp-2">Thiết lập monitoring thời gian thực và cảnh báo thông minh cho hạ tầng cloud.</p>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-slate-50 py-12 mt-0">
+    <div class="max-w-7xl mx-auto px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+        <a href="/" class="text-lg font-bold text-slate-900">☁️ MyMiniCloud</a>
+        <div class="flex flex-wrap justify-center gap-8">
+            <a class="text-slate-500 text-sm font-medium hover:text-blue-700 underline decoration-2 underline-offset-4 transition-opacity opacity-80 hover:opacity-100" href="/">Home</a>
+            <a class="text-slate-500 text-sm font-medium hover:text-blue-700 underline decoration-2 underline-offset-4 transition-opacity opacity-80 hover:opacity-100" href="/blog/">Blog</a>
+            <a class="text-slate-500 text-sm font-medium hover:text-blue-700 underline decoration-2 underline-offset-4 transition-opacity opacity-80 hover:opacity-100 api-link" href="/api/hello">API</a>
+        </div>
+        <p class="text-slate-500 text-sm">© 2026 MyMiniCloud Infrastructure. All rights reserved.</p>
+    </div>
+</footer>
+<script>
+document.querySelectorAll('.api-link').forEach(function(el) {
+    el.href = 'http://' + location.hostname + '/api/hello';
+});
+</script>
+</body>
+</html>

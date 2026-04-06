@@ -1,0 +1,280 @@
+# =============================================
+# MyMiniCloud - Docker Compose Configuration
+# 9 Core Services + Load Balancing (Phase 2)
+# =============================================
+
+networks:
+  cloud-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.22.0.0/16
+
+volumes:
+  mariadb_data: {}
+  grafana_data: {}
+  prometheus_data: {}
+  minio_data: {}
+  keycloak_data: {}
+
+services:
+
+  # ============================================
+  # 1. Web Frontend Server (Nginx)
+  # Port: 8080
+  # ============================================
+  web-frontend-server:
+    build: ./web-frontend-server
+    image: thanh281105/myminicloud-web:latest
+    container_name: web-frontend-server
+    restart: unless-stopped
+    expose:
+      - 80
+    ports:
+      - "8080:80"
+    networks:
+      cloud-net:
+        ipv4_address: 172.22.0.10
+    labels:
+      org.label-schema.group: "myministcloud"
+
+  # Phase 2 - Requirement 10: Load Balancer instances
+  web-1:
+    build: ./web-frontend-server
+    container_name: web-1
+    restart: unless-stopped
+    expose:
+      - 80
+    networks:
+      cloud-net:
+    environment:
+      - SERVER_ID=web-1
+    labels:
+      org.label-schema.group: "myministcloud"
+
+  web-2:
+    build: ./web-frontend-server
+    container_name: web-2
+    restart: unless-stopped
+    expose:
+      - 80
+    networks:
+      cloud-net:
+    environment:
+      - SERVER_ID=web-2
+    labels:
+      org.label-schema.group: "myministcloud"
+
+  web-1-exporter:
+    image: nginx/nginx-prometheus-exporter:1.1.0
+    container_name: web-1-exporter
+    restart: unless-stopped
+    command:
+      - -nginx.scrape-uri=http://web-1/metrics
+    networks:
+      cloud-net:
+
+  web-2-exporter:
+    image: nginx/nginx-prometheus-exporter:1.1.0
+    container_name: web-2-exporter
+    restart: unless-stopped
+    command:
+      - -nginx.scrape-uri=http://web-2/metrics
+    networks:
+      cloud-net:
+
+  # ============================================
+  # 2. Application Backend Server (Flask)
+  # Port: 8085
+  # ============================================
+  application-backend-server:
+    build: ./application-backend-server
+    container_name: application-backend-server
+    restart: unless-stopped
+    ports:
+      - "8085:5000"
+    networks:
+      cloud-net:
+        ipv4_address: 172.22.0.11
+    depends_on:
+      - relational-database-server
+    labels:
+      org.label-schema.group: "myministcloud"
+
+  # ============================================
+  # 3. Relational Database Server (MariaDB)
+  # Port: 3306
+  # ============================================
+  relational-database-server:
+    image: mariadb:10.11
+    container_name: relational-database-server
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: clouddb
+      MYSQL_USER: clouduser
+      MYSQL_PASSWORD: cloudpass
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      - ./relational-database-server/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "3306:3306"
+    networks:
+      cloud-net:
+        ipv4_address: 172.22.0.12
+    labels:
+      org.label-schema.group: "myministcloud"
+
+  # ============================================
+  # 4. Authentication & Identity Server (Keycloak)
+  # Port: 8081
+  # ============================================
+  authentication-identity-server:
+    image: quay.io/keycloak/keycloak:26.2.4
+    container_name: authentication-identity-server
+    restart: unless-stopped
+    command: start-dev --import-realm
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    volumes:
+      - keycloak_data:/opt/keycloak/data
+      - ./authentication-identity-server/realm-export.json:/opt/keycloak/data/import/realm-export.json
+    ports:
+      - "8081:8080"
+    networks:
+      cloud-net:
+        ipv4_address: 172.22.0.13
+    labels:
+      org.label-schema.group: "myministcloud"
+
+  # ============================================
+  # 5. Object Storage Server (MinIO)
+  # API: 9000, Console: 9001
+  # ============================================
+  object-storage-server:
+    image: minio/minio:latest
+    container_name: object-storage-server
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    volumes:
+      - minio_data:/data
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    networks:
+      cloud-net:
+        ipv4_address: 172.22.0.14
+    labels:
+      org.label-schema.group: "myministcloud"
+
+  # MinIO init - create buckets (Phase 2)
+  minio-init:
+    image: minio/mc:latest
+    container_name: minio-init
+    depends_on:
+      - object-storage-server
+    entrypoint: >
+      /bin/sh -c "
+      sleep 5;
+      mc alias set myminio http://object-storage-server:9000 minioadmin minioadmin;
+      mc mb myminio/profile-pics --ignore-existing;
+      mc mb myminio/documents --ignore-existing;
+      mc anonymous set download myminio/profile-pics;
+      echo 'Buckets created successfully!';
+      exit 0;
+      "
+    networks:
+      cloud-net:
+
+  # ============================================
+  # 6. Internal DNS Server (Bind9)
+  # Port: 1053
+  # ============================================
+  internal-dns-server:
+    build: ./internal-dns-server
+    container_name: internal-dns-server
+    restart: unless-stopped
+    ports:
+      - "1053:53/tcp"
+      - "1053:53/udp"
+    networks:
+      cloud-net:
+        ipv4_address: 172.22.0.15
+    labels:
+      org.label-schema.group: "myministcloud"
+
+  # ============================================
+  # 7. Monitoring - Prometheus Server
+  # Port: 9090
+  # ============================================
+  monitoring-prometheus-server:
+    image: prom/prometheus:v3.10.0
+    container_name: monitoring-prometheus-server
+    restart: unless-stopped
+    volumes:
+      - ./monitoring-prometheus-server:/etc/prometheus
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+    ports:
+      - "9090:9090"
+    networks:
+      cloud-net:
+        ipv4_address: 172.22.0.16
+    labels:
+      org.label-schema.group: "myministcloud"
+
+  # ============================================
+  # 8. Monitoring - Grafana Dashboard Server
+  # Port: 3000
+  # ============================================
+  monitoring-grafana-dashboard-server:
+    image: grafana/grafana:12.4.0
+    container_name: monitoring-grafana-dashboard-server
+    restart: unless-stopped
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring-grafana-dashboard-server/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+      - ./monitoring-grafana-dashboard-server/provisioning/datasources:/etc/grafana/provisioning/datasources
+    ports:
+      - "3000:3000"
+    networks:
+      cloud-net:
+        ipv4_address: 172.22.0.17
+    depends_on:
+      - monitoring-prometheus-server
+    labels:
+      org.label-schema.group: "myministcloud"
+
+  # ============================================
+  # 9. API Gateway / Reverse Proxy (Nginx)
+  # Port: 80
+  # ============================================
+  api-gateway-proxy-server:
+    build: ./api-gateway-proxy-server
+    container_name: api-gateway-proxy-server
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    networks:
+      cloud-net:
+        ipv4_address: 172.22.0.18
+    depends_on:
+      - web-frontend-server
+      - web-1
+      - web-2
+      - application-backend-server
+      - authentication-identity-server
+    labels:
+      org.label-schema.group: "myministcloud"
