@@ -99,3 +99,16 @@ Sau khi chạy `docker-compose up -d`, hãy kiểm tra từng phần theo hướ
      ```bash
      docker logs api-gateway-proxy-server
      ```
+
+### 11. Ping giữa các server
+# Truy cập vào container web-frontend-server
+docker exec -it web-frontend-server /bin/sh
+
+ping -c 3 application-backend-server
+ping -c 3 relational-database-server
+ping -c 3 authentication-identity-server
+ping -c 3 object-storage-server
+ping -c 3 internal-dns-server
+ping -c 3 monitoring-prometheus-server
+ping -c 3 monitoring-grafana-dashboard-server
+ping -c 3 api-gateway-proxy-server
